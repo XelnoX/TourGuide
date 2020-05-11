@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "49820526207",
+    "firebase_url": "https://routeplanner-2020.firebaseio.com",
+    "project_id": "routeplanner-2020",
+    "storage_bucket": "routeplanner-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49820526207:android:701af122e7a8a2aa94814a",
+        "android_client_info": {
+          "package_name": "hu.bme.aut.android.tourgide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49820526207-k8fajirt45h77e4dp3lq6vb318hiebmv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCExSt-NIVxt9HPhcIbYE36wL2LprcqAzI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49820526207-k8fajirt45h77e4dp3lq6vb318hiebmv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

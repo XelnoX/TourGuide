@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    tools:context=".ChooseFilterDialogFragment"
+    android:weightSum="2">
+
+    <Button
+        android:id="@+id/btn_choose_data"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_weight="1"
+        android:text="@string/use_my_data"
+        />
+
+    <Button
+        android:id="@+id/btn_choose_new"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_weight="1"
+        android:text="@string/show_me_options"/>
+
+</LinearLayout>

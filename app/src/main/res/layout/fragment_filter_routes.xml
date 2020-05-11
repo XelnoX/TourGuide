@@ -1,0 +1,101 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FilterRoutesDialogFragment"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_routes_filter_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_for_specified_routes"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_filter_routes"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_routes_filter_title" />
+
+    <TextView
+        android:id="@+id/tv_filter_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/distance"
+        app:layout_constraintEnd_toStartOf="@+id/et_filter_max_dist"
+        app:layout_constraintStart_toEndOf="@+id/et_filter_min_dist"
+        app:layout_constraintTop_toBottomOf="@+id/tv_routes_filter_title" />
+
+    <TextView
+        android:id="@+id/tv_filter_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/time"
+        app:layout_constraintEnd_toStartOf="@+id/et_filter_max_time"
+        app:layout_constraintStart_toEndOf="@+id/et_filter_min_time"
+        app:layout_constraintTop_toBottomOf="@+id/tv_filter_dist" />
+
+    <EditText
+        android:id="@+id/et_filter_min_dist"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/rv_filter_routes"
+        app:layout_constraintTop_toBottomOf="@+id/tv_routes_filter_title" />
+
+    <EditText
+        android:id="@+id/et_filter_max_dist"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_routes_filter_title" />
+
+    <EditText
+        android:id="@+id/et_filter_min_time"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/rv_filter_routes"
+        app:layout_constraintTop_toBottomOf="@+id/et_filter_min_dist" />
+
+    <EditText
+        android:id="@+id/et_filter_max_time"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_filter_max_dist" />
+
+    <Button
+        android:id="@+id/btn_filter_show_routes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Show me routes!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rv_filter_routes"
+        app:layout_constraintTop_toBottomOf="@+id/tv_filter_time" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

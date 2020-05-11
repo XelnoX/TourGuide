@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">tourGuide</string>
+    <string name="log_in">Log in</string>
+    <string name="register">Register</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="registration">Registration</string>
+    <string name="cancel">Cancel</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="password_restore">Password restore</string>
+    <string name="reset_password">Reset password</string>
+    <string name="profile">Profile</string>
+    <string name="tours">Tours</string>
+    <string name="name">Name</string>
+    <string name="your_email_address">Your email address:</string>
+    <string name="back"><![CDATA[<Back]]></string>
+    <string name="new_password">New password</string>
+    <string name="new_password_again">New password again</string>
+    <string name="current_password">Current password</string>
+    <string name="_1_type_your_email_in_n_2_hit_quot_reset_password_quot_button">(1) Type your email in.\n(2) Hit \"reset password\" button</string>
+    <string name="your_phone_number">Your phone number:</string>
+    <string name="phone">Phone</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="map">Map</string>
+    <string name="routes">Routes</string>
+    <string name="description">Description</string>
+    <string name="distance">Distance</string>
+    <string name="time">Time</string>
+    <string name="select">Select</string>
+    <string name="points">Points:</string>
+    <string name="backjobb"><![CDATA[Back>]]></string>
+    <string name="quit">Quit</string>
+    <string name="cities">Cities</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="choose_some_cities">Choose some cities</string>
+    <string name="choose_some_cities_optional">Choose some cities (optional)</string>
+    <string name="your_chosen_cities">Your chosen cities:</string>
+    <string name="you_haven_t_chosen_any_city_yet">You haven\'t chosen any city yet</string>
+    <string name="change">Change</string>
+    <string name="search_for_specified_routes">Search for specified routes</string>
+    <string name="ok">OK</string>
+    <string name="use_my_data">Use my data!</string>
+    <string name="show_me_options">Show me options!</string>
+    <string name="choose_some_city">Choose some city</string>
+    <string name="the_route_takes_place_in_the_city_of">The route takes place in the city of</string>
+</resources>
