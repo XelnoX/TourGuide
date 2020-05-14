@@ -3,6 +3,9 @@ package hu.bme.aut.android.tourguide
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot.*
@@ -16,6 +19,12 @@ class ForgotActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot)
 
+        val contentView = findViewById<View>(R.id.forgot_activity)
+        contentView.setOnTouchListener { v, _ ->
+            v?.hideKeyboard()
+            true
+        }
+
         auth = FirebaseAuth.getInstance()
         this.supportActionBar?.hide()
 
@@ -27,8 +36,8 @@ class ForgotActivity : AppCompatActivity() {
             val email = et_forgot_email.text.toString().trim()
 
             if(TextUtils.isEmpty(email)){
-                et_email.error = "Email required"
-                et_email.requestFocus()
+                et_forgot_email.error = "Email required"
+                et_forgot_email.requestFocus()
                 return@setOnClickListener
             }else{
                 auth.sendPasswordResetEmail(email)
@@ -41,5 +50,10 @@ class ForgotActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    private fun View.hideKeyboard() {
+        val inputMethodManager = context!!.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        inputMethodManager?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 }
