@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -22,8 +23,14 @@ class NavigationActivity : AppCompatActivity() {
     private lateinit var navView: BottomNavigationView
     var cityList = mutableListOf<City>()
     var routeList = mutableListOf<Route>()
-    private val cityRef = FirebaseDatabase.getInstance().getReference("cities")
-    private val routeRef = FirebaseDatabase.getInstance().getReference("routes")
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+    private val cityRef = firebaseDatabase.getReference("cities")
+    private val routeRef = firebaseDatabase.getReference("routes")
+    private val uid = FirebaseAuth.getInstance().uid
+    private val userRef = firebaseDatabase.getReference("users/$uid")
+    private val userCitiesRef = firebaseDatabase.getReference("users/$uid").child("cities")
+
+    private val user = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +39,50 @@ class NavigationActivity : AppCompatActivity() {
         navView = findViewById(R.id.bottom_navigation_view)
 
         menuItemsPassword()
+
+        user.uid = uid!!
+
+        replaceFragment(LoadingFragment())
+
+        userRef.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "Failure during getting user data!")
+            }
+
+            override fun onDataChange(snap: DataSnapshot) {
+                Log.d(TAG, "User data has been gotten!")
+                user.name = snap.child("name").value.toString()
+                user.email = snap.child("email").value.toString()
+                user.phoneNumber = snap.child("phoneNumber").value.toString()
+                user.password = snap.child("password").value.toString()
+            }
+
+        })
+        userCitiesRef.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "Failure during getting user cities!")
+            }
+
+            override fun onDataChange(snap: DataSnapshot) {
+                Log.d(TAG, "User cities has been gotten!")
+                for(dataSnap in snap.children){
+                    val city = dataSnap.getValue(City::class.java)
+                    if(city != null){
+                        user.cities.add(city)
+                    }
+                }
+                if(user.cities.isNotEmpty()){
+                    for(UserCity in user.cities){
+                        for (NavCity in cityList){
+                            if(UserCity.name == NavCity.name){
+                                NavCity.isSelected = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
 
         cityRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -46,8 +97,23 @@ class NavigationActivity : AppCompatActivity() {
                         cityList.add(city)
                     }
                 }
+                if(user.cities.isNotEmpty()){
+                    for(UserCity in user.cities){
+                        for (NavCity in cityList){
+                            if(UserCity.name == NavCity.name){
+                                NavCity.isSelected = true;
+                            }
+                        }
+                    }
+                }
+                val bundle = Bundle()
+                bundle.putSerializable("user", user)
+                val fragment = ProfileFragment()
+                fragment.arguments = bundle
+                replaceFragment(fragment)
             }
         })
+
         routeRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 Log.d(TAG, "Failure during getting list of routes!", error.toException())
@@ -66,14 +132,17 @@ class NavigationActivity : AppCompatActivity() {
 
         val navigation: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
         navigation.setOnNavigationItemSelectedListener(onNavClick)
-        replaceFragment(ProfileFragment())
     }
 
     private val onNavClick = BottomNavigationView.OnNavigationItemSelectedListener {item->
             when(item.itemId){
                 R.id.navigation_profile ->{
                     Log.d(TAG, "ProfileFragment is on the top!")
-                    replaceFragment(ProfileFragment())
+                    val bundle = Bundle()
+                    bundle.putSerializable("user", user)
+                    val fragment = ProfileFragment()
+                    fragment.arguments = bundle
+                    replaceFragment(fragment)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_tours ->{

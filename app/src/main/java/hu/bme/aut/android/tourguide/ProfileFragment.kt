@@ -7,21 +7,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.util.regex.Pattern
 
 
 class ProfileFragment: Fragment() {
+    private val TAG = "ProfileFragment"
 
     private lateinit var etName: EditText
     private lateinit var btnEdit: Button
@@ -35,16 +33,10 @@ class ProfileFragment: Fragment() {
     private lateinit var tvCities: TextView
     private var isInEditMode: Boolean = false
 
-    private val uid = FirebaseAuth.getInstance().uid
-    private val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
-    private lateinit var auth: FirebaseAuth
+    private var auth = FirebaseAuth.getInstance()
     private val database = Firebase.database.reference
 
-    lateinit var originalName: String
-    lateinit var originalPhone: String
-    var userCitiesString = ""
-    var userCityList = mutableListOf<String>()
-    lateinit var newPass: String
+    var user = User()
     lateinit var newPassAgain: String
 
     val PREFS_FILENAME = "hu.bme.aut.android.tourguide.mypreference"
@@ -58,6 +50,8 @@ class ProfileFragment: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        user = arguments!!.getSerializable("user") as User
+
         etName = view.findViewById(R.id.et_profile_name)
         btnEdit = view.findViewById(R.id.btn_profile_edit)
         etEmail = view.findViewById(R.id.et_profile_email)
@@ -69,67 +63,40 @@ class ProfileFragment: Fragment() {
         tvChange = view.findViewById(R.id.tv_profile_change)
         tvCities = view.findViewById(R.id.tv_profile_cities)
 
-        auth = FirebaseAuth.getInstance()
-
         prefs = this.activity!!.getSharedPreferences(PREFS_FILENAME, 0)
 
-        ref.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(de: DatabaseError) {
-            }
-            override fun onDataChange(ds: DataSnapshot) {
-                originalName = ds.child("name").value.toString()
-                originalPhone = ds.child("phoneNumber").value.toString()
-                userCitiesString = ds.child("cities").value.toString()
-                etName.setText(originalName)
-                etPhone.setText(originalPhone)
-                if(userCitiesString != "") {
-                    userCitiesString = userCitiesString.removePrefix(" ")
-                    tvCities.text = userCitiesString
-                    val list = userCitiesString.split(" ")
-                    userCityList = list.toMutableList()
-                    for(cityS in userCityList){
-                        if(activity != null){
-                            for(city in (activity as NavigationActivity).cityList){
-                                if(city.name == cityS){
-                                    city.isSelected = true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        })
+        etName.setText(user.name)
+        etEmail.setText(user.email)
+        etPhone.setText(user.phoneNumber)
 
-        changeEditTexts(false)
-        etNewPassword.isVisible = false
-        etNewPasswordAgain.isVisible = false
-        var originalEmail = prefs.getString(EMAIL,null)
-        etEmail.setText(originalEmail)
+        fillTextView()
+
         btnEdit.setOnClickListener {
             if(!isInEditMode) {
                 btnEdit.setBackgroundResource(R.drawable.ic_save_black_24dp)
                 changeEditTexts(true)
             }else{
-                originalEmail = prefs.getString(EMAIL,null)
                 val newName = etName.text.toString()
                 val newPhone = etPhone.text.toString()
                 val newEmail = etEmail.text.toString()
 
-                val isNameNew = (newName != originalName)
-                val isPhoneNew = (newPhone != originalPhone)
-                val isEmailNew = (newEmail != originalEmail)
+                val isNameNew = (newName != user.name)
+                val isPhoneNew = (newPhone != user.phoneNumber)
+                val isEmailNew = (newEmail != user.email)
                 val isCheckBox = cbPassword.isChecked
+
                 val isAnythingNew = (isNameNew || isEmailNew || isPhoneNew || isCheckBox)
 
                 if(isAnythingNew){
                     val oldPassword = etOldPassword.text.toString()
                     if(oldPassword == prefs.getString(PASSWORD,null)!!) {
+                        var newPassword = ""
                         if (isCheckBox) {
-                            newPass = etNewPassword.text.toString()
+                            newPassword = etNewPassword.text.toString()
                             newPassAgain = etNewPasswordAgain.text.toString()
 
-                            val newPassValidity = isValidPassword(newPass)
-                            val newPassAgainValidity = isValidRepeatPassword(newPass, newPassAgain)
+                            val newPassValidity = isValidPassword(newPassword)
+                            val newPassAgainValidity = isValidRepeatPassword(newPassword, newPassAgain)
 
                             if (newPassValidity != "OK") {
                                 etNewPassword.error = newPassValidity
@@ -141,30 +108,13 @@ class ProfileFragment: Fragment() {
                                 etNewPasswordAgain.requestFocus()
                                 return@setOnClickListener
                             }
-
                         }
                         val builder = AlertDialog.Builder(activity)
                         builder.setTitle("Modifying profile data")
-                        builder.setMessage("Do you really want to change some profile details?")
+                        builder.setMessage("Do you really want to change your profile details?")
                         builder.setPositiveButton("YES") { _, _ ->
                             if (isCheckBox) {
-                                val credential = EmailAuthProvider.getCredential(
-                                    prefs.getString(EMAIL, null)!!,
-                                    prefs.getString(PASSWORD, null)!!
-                                )
-                                auth.currentUser!!.reauthenticate(credential)
-                                    .addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            database.child("users").child(uid.toString())
-                                                .child("password").setValue(newPass)
-                                            val editor = prefs.edit()
-                                            editor.putString(PASSWORD, newPass)
-                                            editor.apply()
-                                            auth = FirebaseAuth.getInstance()
-                                            auth.currentUser!!.updatePassword(newPass)
-                                            (activity as NavigationActivity).menuItemsPassword()
-                                        }
-                                    }
+                                updatePassword(newPassword)
                             }
                             if (isEmailNew) {
                                 updateUserEmail(newEmail)
@@ -172,32 +122,20 @@ class ProfileFragment: Fragment() {
                             if (isNameNew || isPhoneNew) {
                                 updateUserDatabase(newName, newPhone)
                             }
-                            Toast.makeText(
-                                activity,
-                                "Ok, we save your modifications!",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(activity, "Ok, we save your modifications!", Toast.LENGTH_SHORT).show()
                             btnEdit.setBackgroundResource(R.drawable.ic_edit_black_24dp)
                             changeEditTexts(false)
                             etNewPassword.isVisible = false
                             etNewPasswordAgain.isVisible = false
                         }
                         builder.setNegativeButton("NO") { _, _ ->
-                            Toast.makeText(
-                                activity,
-                                "Nothing will be changed!.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(activity, "Nothing will be changed!.", Toast.LENGTH_SHORT).show()
                         }
                         builder.setNeutralButton("Cancel") { _, _ ->
-                            Toast.makeText(
-                                activity,
-                                "You cancelled the modifications!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            etEmail.setText(originalEmail)
-                            etName.setText(originalName)
-                            etPhone.setText(originalPhone)
+                            Toast.makeText(activity, "You cancelled the modifications!", Toast.LENGTH_SHORT).show()
+                            etEmail.setText(user.email)
+                            etName.setText(user.name)
+                            etPhone.setText(user.phoneNumber)
                             btnEdit.setBackgroundResource(R.drawable.ic_edit_black_24dp)
                             changeEditTexts(false)
                         }
@@ -205,7 +143,8 @@ class ProfileFragment: Fragment() {
 
                         dialog.show()
                     }else{
-                        Toast.makeText(activity, "Wrong current password!", Toast.LENGTH_SHORT).show()
+                        etOldPassword.error = "Wrong current password!"
+                        etOldPassword.requestFocus()
                     }
                 }else{
                     btnEdit.setBackgroundResource(R.drawable.ic_edit_black_24dp)
@@ -226,45 +165,51 @@ class ProfileFragment: Fragment() {
             fragmentDial.arguments = bundle
             fragmentDial.show(activity!!.supportFragmentManager,"TAG")
         }
-
         return view
     }
 
     private fun updateUserEmail(newEmail: String){
-        database.child("users").child(uid.toString()).child("email").setValue(newEmail)
-        val credential = EmailAuthProvider.getCredential(prefs.getString(EMAIL,null)!!, prefs.getString(PASSWORD,null)!!)
+        database.child("users").child(user.uid).child("email").setValue(newEmail)
+        val credential = EmailAuthProvider.getCredential(
+            prefs.getString(EMAIL,null)!!,
+            prefs.getString(PASSWORD,null)!!
+        )
         auth.currentUser!!.reauthenticate(credential)
-            .addOnCompleteListener{
-                if(it.isSuccessful){
-                    Log.d("ProfileFragment","Successfully reaut")
+            .addOnCompleteListener{firstAuthenticationTask ->
+                if(firstAuthenticationTask.isSuccessful){
+                    Log.d(TAG,"Successfully authentication!")
                     auth = FirebaseAuth.getInstance()
                     auth.currentUser!!.updateEmail(newEmail)
-                        .addOnCompleteListener{lol->
-                            if(lol.isSuccessful){Log.d("ProfileFragment","Successfully save email")
+                        .addOnCompleteListener{updateEmailTask->
+                            if(updateEmailTask.isSuccessful){
+                                Log.d(TAG,"Successfully saved new email")
                             }else{
-                                Log.d("ProfileFragment","Failure save email", lol.exception)
+                                Log.d(TAG,"Failure during saving new email", updateEmailTask.exception)
                             }
                         }
                     auth = FirebaseAuth.getInstance()
-                    val newcredential = EmailAuthProvider.getCredential(prefs.getString(EMAIL,null)!!, prefs.getString(PASSWORD,null)!!)
-                    auth.currentUser!!.reauthenticate(newcredential)
-                        .addOnCompleteListener{ti->
-                            if(ti.isSuccessful){
-                                Log.d("ProfileFragment","Successfully second aut")
+                    val newCredential = EmailAuthProvider.getCredential(
+                        prefs.getString(EMAIL,null)!!,
+                        prefs.getString(PASSWORD,null)!!
+                    )
+                    auth.currentUser!!.reauthenticate(newCredential)
+                        .addOnCompleteListener{secondAuthenticationTask->
+                            if(secondAuthenticationTask.isSuccessful){
+                                Log.d(TAG,"Successfully second authentication!")
                                 auth.currentUser!!.sendEmailVerification()
-                                    .addOnCompleteListener{task ->
-                                        if(task.isSuccessful){
-                                            Log.d("ProfileFragment","Successfully send email!")
+                                    .addOnCompleteListener{sendEmailVerificationTask ->
+                                        if(sendEmailVerificationTask.isSuccessful){
+                                            Log.d(TAG,"Successfully sent email!")
                                         }else{
-                                            Log.d("ProfileFragment","Failure send email!", task.exception)
+                                            Log.d(TAG,"Failure during sending email!", sendEmailVerificationTask.exception)
                                         }
                                     }
                             }else{
-                                Log.d("ProfileFragment","Failure failed second aut", ti.exception)
+                                Log.d(TAG,"Failure during second authentication", secondAuthenticationTask.exception)
                             }
                         }
                 }else{
-                    Log.d("ProfileFragment","Failure reaut", it.exception)
+                    Log.d(TAG,"Failure during authentication", firstAuthenticationTask.exception)
                 }
             }
         val editor = prefs.edit()
@@ -272,9 +217,28 @@ class ProfileFragment: Fragment() {
         editor.apply()
     }
 
-    private fun updateUserDatabase(newName: String, newPhone: String){
-        database.child("users").child(uid.toString()).child("name").setValue(newName)
-        database.child("users").child(uid.toString()).child("phoneNumber").setValue(newPhone)
+    private fun updateUserDatabase(newName: String, newPhoneNumber: String){
+        database.child("users").child(user.uid).child("name").setValue(newName)
+        database.child("users").child(user.uid).child("phoneNumber").setValue(newPhoneNumber)
+    }
+
+    private fun updatePassword(newPassword: String){
+        val credential = EmailAuthProvider.getCredential(
+            prefs.getString(EMAIL, null)!!,
+            prefs.getString(PASSWORD, null)!!
+        )
+        auth.currentUser!!.reauthenticate(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    database.child("users").child(user.uid).child("password").setValue(newPassword)
+                    val editor = prefs.edit()
+                    editor.putString(PASSWORD, newPassword)
+                    editor.apply()
+                    auth = FirebaseAuth.getInstance()
+                    auth.currentUser!!.updatePassword(newPassword)
+                    (activity as NavigationActivity).menuItemsPassword()
+                }
+            }
     }
 
     private fun changeEditTexts(bool: Boolean){
@@ -328,9 +292,11 @@ class ProfileFragment: Fragment() {
 
     fun fillTextView() {
         var temp = ""
+        user.cities.clear()
         for(city in (activity as NavigationActivity).cityList){
             if(city.isSelected){
                 temp += " ${city.name}"
+                user.cities.add(city)
             }
         }
         if(temp != ""){
@@ -339,6 +305,6 @@ class ProfileFragment: Fragment() {
         }else{
             tvCities.text = "You haven\'t chosen any city yet"
         }
-        database.child("users").child(uid.toString()).child("cities").setValue(temp)
+        database.child("users").child(user.uid).child("cities").setValue(user.cities)
     }
 }

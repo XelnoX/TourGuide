@@ -1,3 +1,5 @@
 package hu.bme.aut.android.tourguide
 
-class User(val uid: String, val phoneNumber: String, val name: String, val email: String, val password: String, var cities: String)
+import java.io.Serializable
+
+class User(var uid: String = "", var phoneNumber: String = "", var name: String = "", var email: String = "", var password: String = "", val cities: MutableList<City> = mutableListOf()): Serializable

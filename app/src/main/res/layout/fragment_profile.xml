@@ -4,41 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
+    android:padding="16dp"
     tools:context=".ProfileFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/login_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
+    <Button
+        android:id="@+id/btn_profile_edit"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_edit_black_24dp"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:contentInsetStart="0dp" >
+        app:layout_constraintVertical_bias="0.0" />
 
-        <Button
-            android:id="@+id/btn_profile_edit"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="end"
-            android:background="@drawable/ic_edit_black_24dp"
-            app:borderWidth="0dp" />
-
-        <EditText
-            android:id="@+id/et_profile_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:inputType="textPersonName"
-            android:hint="@string/name"
-            android:background="@null"
-            android:textSize="30sp"
-            android:textStyle="bold"/>
-
-    </androidx.appcompat.widget.Toolbar>
+    <EditText
+        android:id="@+id/et_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:enabled="false"/>
 
     <TextView
         android:id="@+id/tv_profile_email"
@@ -52,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/et_profile_name"
         app:layout_constraintVertical_bias="0.0"/>
 
     <EditText
@@ -69,7 +65,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_email"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        android:enabled="false"/>
 
     <TextView
         android:id="@+id/tv_profile_phone"
@@ -100,7 +97,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_phone"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        android:enabled="false"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_profile_new_password"
@@ -116,7 +114,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cb_profile_password"
-        app:met_floatingLabel="highlight" />
+        app:met_floatingLabel="highlight"
+        android:visibility="gone" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_profile_new_password_again"
@@ -134,7 +133,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_profile_new_password"
         app:layout_constraintVertical_bias="0.0"
-        app:met_floatingLabel="highlight" />
+        app:met_floatingLabel="highlight"
+        android:visibility="gone" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_profile_old_password"
@@ -152,7 +152,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_profile_new_password_again"
         app:layout_constraintVertical_bias="0.0"
-        app:met_floatingLabel="highlight" />
+        app:met_floatingLabel="highlight"
+        android:visibility="gone"/>
 
     <CheckBox
         android:id="@+id/cb_profile_password"
@@ -163,7 +164,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_profile_cities" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_cities"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_profile_your_cities"
@@ -197,5 +199,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.928"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/et_profile_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

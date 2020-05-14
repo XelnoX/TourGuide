@@ -43,4 +43,7 @@
     <string name="show_me_options">Show me options!</string>
     <string name="choose_some_city">Choose some city</string>
     <string name="the_route_takes_place_in_the_city_of">The route takes place in the city of</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

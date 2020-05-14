@@ -137,15 +137,16 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
         if(temp != ""){
+            temp.removePrefix("")
             tv_reg_cities.text = temp
         }
     }
 
-    private fun listSelectedCities(list: MutableList<City>): String{
-        var cities = ""
-        for(city in list){
+    private fun listSelectedCities(cityList: MutableList<City>): MutableList<City>{
+        val cities = mutableListOf<City>()
+        for(city in cityList){
             if(city.isSelected){
-                cities += " ${city.name}"
+                cities.add(city)
             }
         }
         return cities
