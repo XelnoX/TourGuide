@@ -1,10 +1,8 @@
 package hu.bme.aut.android.tourguide
 
 import android.content.Intent
-import android.icu.util.BuddhistCalendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -18,24 +16,24 @@ import java.util.regex.Pattern
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var myRef: DatabaseReference
+    private lateinit var cityRef: DatabaseReference
     var cityList = mutableListOf<City>()
+    private val TAG = "RegistrationActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
-        myRef = FirebaseDatabase.getInstance().getReference("cities")
+        cityRef = FirebaseDatabase.getInstance().getReference("cities")
 
         auth = FirebaseAuth.getInstance()
-        this.supportActionBar?.hide()
 
-        myRef.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onCancelled(snap: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        cityRef.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "Failed during getting list of cities!", error.toException())
             }
-
             override fun onDataChange(snap: DataSnapshot) {
+                Log.d(TAG, "Successfully got cities!")
                 for(dataSnap in snap.children){
                     val city = dataSnap.getValue(City::class.java)
                     if(city != null){
@@ -43,7 +41,6 @@ class RegistrationActivity : AppCompatActivity() {
                     }
                 }
             }
-
         })
 
         tv_reg_cities.setOnClickListener {
@@ -51,7 +48,7 @@ class RegistrationActivity : AppCompatActivity() {
             bundle.putString("from", "RegA")
             val fragmentDial = CitiesDialogFragment()
             fragmentDial.arguments = bundle
-            fragmentDial.show(supportFragmentManager,"TAG")
+            fragmentDial.show(supportFragmentManager,TAG)
         }
 
         val contentView: View = findViewById(R.id.registration_activity)
@@ -106,26 +103,27 @@ class RegistrationActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { aTask ->
                     if (aTask.isSuccessful) {
-                        Log.d("RegisterActivity", "Successfully created user!")
+                        Log.d(TAG, "Successfully created the user!")
                         saveUserToFirebase(name, phone ,email, password)
-                        Toast.makeText(applicationContext, "You have successfully registered!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext, "You have successfully registered!", Toast.LENGTH_SHORT).show()
 
                         auth.currentUser!!.sendEmailVerification()
                             .addOnCompleteListener(this) {bTask ->
                                 if (bTask.isSuccessful){
+                                    Log.d(TAG, "Successfully sent email verification ")
                                     auth.signOut()
                                     val intent = Intent(this@RegistrationActivity, LoginActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                                     startActivity(intent)
                                     finish()
                                 }else{
-                                    Toast.makeText(applicationContext, "Email verification was failed!", Toast.LENGTH_LONG).show()
+                                    Log.d(TAG, "Failed to send verification email!", bTask.exception)
                                 }
                             }
 
                     } else {
-                        Log.w("RegisterActivity", "Failure during creating user!", aTask.exception)
-                        Toast.makeText(applicationContext, "Registration failed!", Toast.LENGTH_LONG).show()
+                        Log.d(TAG, "Failure during creating the user!", aTask.exception)
+                        Toast.makeText(applicationContext, "Registration failed, due to database problems, please try again later!", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
@@ -141,7 +139,6 @@ class RegistrationActivity : AppCompatActivity() {
         if(temp != ""){
             tv_reg_cities.text = temp
         }
-
     }
 
     private fun listSelectedCities(list: MutableList<City>): String{
@@ -235,9 +232,9 @@ class RegistrationActivity : AppCompatActivity() {
         ref.setValue(user)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.d("RegisterActivity", "Successfully saved user!")
+                    Log.d(TAG, "Successfully saved user into database!")
                 } else {
-                    Log.w("RegisterActivity", "Failure during saving user!", task.exception)
+                    Log.d(TAG, "Failure during saving user into database!", task.exception)
                 }
             }
     }

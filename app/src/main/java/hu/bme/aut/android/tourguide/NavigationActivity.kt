@@ -2,6 +2,7 @@ package hu.bme.aut.android.tourguide
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
@@ -13,6 +14,8 @@ import com.google.firebase.database.ValueEventListener
 import java.util.regex.Pattern
 
 class NavigationActivity : AppCompatActivity() {
+    private val TAG = "NavigationActivity"
+
     lateinit var password: String
     val PREFS_FILENAME = "hu.bme.aut.android.tourguide.mypreference"
     val PASSWORD = "userPassword"
@@ -28,15 +31,15 @@ class NavigationActivity : AppCompatActivity() {
 
         navView = findViewById(R.id.bottom_navigation_view)
 
-        this.supportActionBar?.hide()
         menuItemsPassword()
 
         cityRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(snap: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "Failure during getting list of cities!", error.toException())
             }
 
             override fun onDataChange(snap: DataSnapshot) {
+                Log.d(TAG, "Successfully got list of cities!")
                 for(dataSnap in snap.children){
                     val city = dataSnap.getValue(City::class.java)
                     if(city != null){
@@ -47,10 +50,11 @@ class NavigationActivity : AppCompatActivity() {
         })
         routeRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Log.d(TAG, "Failure during getting list of routes!", error.toException())
             }
 
             override fun onDataChange(snap: DataSnapshot) {
+                Log.d(TAG, "Successfully got list of routes!")
                 for(dataSnap in snap.children){
                     val route = dataSnap.getValue(Route::class.java)
                     if(route != null){
@@ -68,14 +72,17 @@ class NavigationActivity : AppCompatActivity() {
     private val onNavClick = BottomNavigationView.OnNavigationItemSelectedListener {item->
             when(item.itemId){
                 R.id.navigation_profile ->{
+                    Log.d(TAG, "ProfileFragment is on the top!")
                     replaceFragment(ProfileFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_tours ->{
+                    Log.d(TAG, "RoutesFragment is on the top!")
                     replaceFragment(RoutesFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_map ->{
+                    Log.d(TAG, "MapFragment is on the top!")
                     replaceFragment(MapFragment())
                     return@OnNavigationItemSelectedListener true
                 }
@@ -117,12 +124,7 @@ class NavigationActivity : AppCompatActivity() {
     fun menuItemsPassword(){
         val prefs = this.getSharedPreferences(PREFS_FILENAME, 0)
         password = prefs.getString(PASSWORD,"")!!
-        if(!isPasswordStrong()){
-            navView.menu.findItem(R.id.navigation_tours).isEnabled = false
-            navView.menu.findItem(R.id.navigation_map).isEnabled = false
-        }else{
-            navView.menu.findItem(R.id.navigation_tours).isEnabled = true
-            navView.menu.findItem(R.id.navigation_map).isEnabled = true
-        }
+        navView.menu.findItem(R.id.navigation_tours).isEnabled = isPasswordStrong()
+        navView.menu.findItem(R.id.navigation_map).isEnabled = isPasswordStrong()
     }
 }

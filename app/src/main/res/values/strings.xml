@@ -32,9 +32,6 @@
     <string name="backjobb"><![CDATA[Back>]]></string>
     <string name="quit">Quit</string>
     <string name="cities">Cities</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="choose_some_cities">Choose some cities</string>
     <string name="choose_some_cities_optional">Choose some cities (optional)</string>
     <string name="your_chosen_cities">Your chosen cities:</string>

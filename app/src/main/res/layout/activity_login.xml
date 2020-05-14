@@ -5,44 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:paddingEnd="16dp"
-    android:paddingStart="16dp"
+    android:padding="16dp"
     android:id="@+id/login_activity"
     android:background="@drawable/hello_different_languages">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/login_toolbar"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_login_quit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/quit"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/et_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_login_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/log_in"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/tv_login_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="@string/quit"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="318dp"
-            tools:layout_editor_absoluteY="14dp" />
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="408dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_title"
+        app:layout_constraintVertical_bias="1.0"
+        app:met_floatingLabel="highlight"
+        app:met_iconLeft="@drawable/email"
+        app:met_iconPadding="16dp" />
 
-        <TextView
-            android:id="@+id/tv_login_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/log_in"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="135dp"
-            tools:layout_editor_absoluteY="14dp" />
-
-    </androidx.appcompat.widget.Toolbar>
-
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="352dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_email"
+        app:layout_constraintVertical_bias="0.0"
+        app:met_floatingLabel="highlight"
+        app:met_iconLeft="@drawable/password"
+        app:met_iconPadding="16dp" />
 
     <Button
         android:id="@+id/btn_login"
@@ -88,42 +118,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_register"
         app:layout_constraintVertical_bias="0.0" />
-
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/et_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_marginBottom="408dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_toolbar"
-        app:layout_constraintVertical_bias="1.0"
-        app:met_floatingLabel="highlight"
-        app:met_iconLeft="@drawable/email"
-        app:met_iconPadding="16dp" />
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="352dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.218"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_email"
-        app:layout_constraintVertical_bias="0.0"
-        app:met_floatingLabel="highlight"
-        app:met_iconLeft="@drawable/password"
-        app:met_iconPadding="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

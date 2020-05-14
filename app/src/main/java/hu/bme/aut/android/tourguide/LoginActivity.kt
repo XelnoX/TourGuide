@@ -14,9 +14,10 @@ import kotlin.system.exitProcess
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    val PREFS_FILENAME = "hu.bme.aut.android.tourguide.mypreference"
-    val PASSWORD = "userPassword"
-    val EMAIL= "userEmail"
+    private val PREFS_FILENAME = "hu.bme.aut.android.tourguide.mypreference"
+    private val PASSWORD = "userPassword"
+    private val EMAIL= "userEmail"
+    private val TAG = "LoginActivity"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,6 @@ class LoginActivity : AppCompatActivity() {
 
         val prefs = this.getSharedPreferences(PREFS_FILENAME, 0)
         auth = FirebaseAuth.getInstance()
-        this.supportActionBar?.hide()
 
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this){task ->
                     if(task.isSuccessful){
                         if(auth.currentUser!!.isEmailVerified) {
-                            Log.d("LoginActivity", "Successfully logged in!")
+                            Log.d(TAG, "User successfully logged in!")
                             Toast.makeText(applicationContext, "Welcome!", Toast.LENGTH_SHORT).show()
 
                             val editor = prefs.edit()
@@ -72,10 +72,11 @@ class LoginActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }else{
+                            Log.d(TAG, "Email, hasn't been verified!")
                             Toast.makeText(applicationContext, "Email hasn't been verified!", Toast.LENGTH_LONG).show()
                         }
                     }else{
-                        Log.d("LoginActivity", "Failure during logging in!")
+                        Log.d(TAG, "Failure during logging in!", task.exception)
                         Toast.makeText(applicationContext, "Wrong username or password!", Toast.LENGTH_LONG).show()
                     }
                 }
@@ -91,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tv_login_cancel.setOnClickListener {
+        tv_login_quit.setOnClickListener {
             moveTaskToBack(true)
             exitProcess(-1)
         }

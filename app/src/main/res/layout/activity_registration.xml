@@ -5,42 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegistrationActivity"
-    android:paddingEnd="16dp"
-    android:paddingStart="16dp"
+    android:padding="16dp"
     android:id="@+id/registration_activity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/reg_toolbar"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_reg_cancel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/et_reg_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_reg_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_reg_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registration"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_reg_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="@string/cancel"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="318dp"
-            tools:layout_editor_absoluteY="14dp" />
-
-        <TextView
-            android:id="@+id/tv_reg_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/registration"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="135dp"
-            tools:layout_editor_absoluteY="14dp" />
-
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_reg_name"
@@ -54,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_reg_title"
         app:layout_constraintVertical_bias="0.0"
         app:met_floatingLabel="highlight"
         app:met_iconLeft="@drawable/name"
@@ -130,10 +124,22 @@
         app:met_iconLeft="@drawable/password"
         app:met_iconPadding="16dp" />
 
+    <TextView
+        android:id="@+id/tv_reg_cities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="16dp"
+        android:text="@string/choose_some_cities_optional"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_reg_repeat_password" />
 
     <Button
         android:id="@+id/btn_reg_register"
         style="?android:attr/borderlessButtonStyle"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
@@ -145,17 +151,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_reg_cities"
         app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tv_reg_cities"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/choose_some_cities_optional"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_reg_repeat_password" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
