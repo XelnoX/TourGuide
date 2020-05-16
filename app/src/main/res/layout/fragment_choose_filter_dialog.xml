@@ -1,23 +1,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="200dp"
+    android:layout_width="wrap_content"
+    android:layout_height="200dip"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ChooseFilterDialogFragment"
-    android:weightSum="2">
+    android:weightSum="2"
+    android:orientation="horizontal">
 
     <Button
+        android:layout_weight="1"
         android:id="@+id/btn_choose_data"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:text="@string/use_my_data"
-        />
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/white" />
 
     <Button
+        android:layout_weight="1"
         android:id="@+id/btn_choose_new"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_weight="1"
-        android:text="@string/show_me_options"/>
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/show_me_options"
+        android:textColor="@color/white"
+        app:borderWidth="0dp" />
 
 </LinearLayout>

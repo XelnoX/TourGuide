@@ -92,7 +92,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Show me routes!"
+        android:text="@string/show_me_routes"
+        android:background="@drawable/ripple"
+        app:borderWidth="0dp"
+        android:textColor="@color/white"
+        style="?android:attr/borderlessButtonStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/rv_filter_routes"
         app:layout_constraintTop_toBottomOf="@+id/tv_filter_time" />

@@ -51,7 +51,7 @@ class RouteDetailsFragment : Fragment() {
 
         tvBack.setOnClickListener {
             val fragment = RoutesFragment()
-            (activity as NavigationActivity).replaceFragment(fragment)
+            (activity as NavigationActivity).replaceFragmentAndGiveUser(fragment)
         }
 
         btnSelect.setOnClickListener {

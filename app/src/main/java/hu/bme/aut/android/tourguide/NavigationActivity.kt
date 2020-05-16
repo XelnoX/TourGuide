@@ -3,7 +3,6 @@ package hu.bme.aut.android.tourguide
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -138,16 +137,12 @@ class NavigationActivity : AppCompatActivity() {
             when(item.itemId){
                 R.id.navigation_profile ->{
                     Log.d(TAG, "ProfileFragment is on the top!")
-                    val bundle = Bundle()
-                    bundle.putSerializable("user", user)
-                    val fragment = ProfileFragment()
-                    fragment.arguments = bundle
-                    replaceFragment(fragment)
+                    replaceFragmentAndGiveUser(ProfileFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_tours ->{
                     Log.d(TAG, "RoutesFragment is on the top!")
-                    replaceFragment(RoutesFragment())
+                    replaceFragmentAndGiveUser(RoutesFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_map ->{
@@ -163,6 +158,12 @@ class NavigationActivity : AppCompatActivity() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_holder, fragment)
         fragmentTransaction.commit()
+    }
+    fun replaceFragmentAndGiveUser(fragment: Fragment){
+        val bundle = Bundle()
+        bundle.putSerializable("user", user)
+        fragment.arguments = bundle
+        replaceFragment(fragment)
     }
 
     private fun isPasswordStrong(): Boolean{

@@ -1,5 +1,6 @@
 package hu.bme.aut.android.tourguide
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -72,5 +73,9 @@ class FilterRoutesDialogFragment : DialogFragment() {
             dismiss()
         }
         return  view
+    }
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        (fragmentManager!!.findFragmentById(R.id.fragment_holder) as RoutesFragment).resetFabBackground()
     }
 }
