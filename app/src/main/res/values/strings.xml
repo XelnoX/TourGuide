@@ -44,4 +44,5 @@
     <string name="choose_some_city">Choose some city</string>
     <string name="the_route_takes_place_in_the_city_of">The route takes place in the city of</string>
     <string name="show_me_routes">Show me routes!</string>
+    <string name="city_name">City name</string>
 </resources>

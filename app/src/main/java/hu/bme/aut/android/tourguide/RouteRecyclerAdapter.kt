@@ -22,11 +22,13 @@ class RouteRecyclerAdapter (val activity: NavigationActivity) : RecyclerView.Ada
         holder.route = route
         holder.tvName.text = route.name
         holder.tvDescription.text = route.description
+        holder.tvCityName.text = route.city
     }
 
     inner class RouteHolder(routeView: View) : RecyclerView.ViewHolder(routeView) {
         val tvName = routeView.tv_route_point_name
         val tvDescription = routeView.tv_route_point_description
+        val tvCityName = routeView.tv_route_point_city_name
 
         var route: Route? = null
 
