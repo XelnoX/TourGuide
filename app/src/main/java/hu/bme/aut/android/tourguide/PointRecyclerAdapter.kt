@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.route_point_row.view.*
+import kotlinx.android.synthetic.main.point_row.view.*
+import kotlinx.android.synthetic.main.route_row.view.*
 
 class PointRecyclerAdapter constructor(val context: Context): RecyclerView.Adapter<PointRecyclerAdapter.PointHolder>() {
 
     var pointList = mutableListOf<Point>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PointHolder {
-        return  PointHolder(LayoutInflater.from(parent.context).inflate(R.layout.route_point_row, parent, false))
+        return  PointHolder(LayoutInflater.from(parent.context).inflate(R.layout.point_row, parent, false))
     }
 
     override fun getItemCount() = pointList.size
@@ -27,8 +28,8 @@ class PointRecyclerAdapter constructor(val context: Context): RecyclerView.Adapt
     }
 
     inner class PointHolder (pointView: View): RecyclerView.ViewHolder(pointView){
-        val tvName = pointView.tv_route_point_name
-        val tvDescription = pointView.tv_route_point_description
+        val tvName = pointView.tv_point_name
+        val tvDescription = pointView.tv_point_description
 
         var point : Point? = null
 

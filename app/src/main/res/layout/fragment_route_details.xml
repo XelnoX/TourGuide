@@ -81,7 +81,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_route_detail_points"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
+        android:layout_height="230dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_route_details_select"

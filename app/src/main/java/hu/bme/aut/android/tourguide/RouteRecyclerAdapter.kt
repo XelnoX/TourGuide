@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.route_point_row.view.*
+import kotlinx.android.synthetic.main.route_row.view.*
 
 class RouteRecyclerAdapter (val activity: NavigationActivity) : RecyclerView.Adapter<RouteRecyclerAdapter.RouteHolder>() {
 
     var routeList = mutableListOf<Route>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RouteHolder {
-        return  RouteHolder(LayoutInflater.from(parent.context).inflate(R.layout.route_point_row, parent, false))
+        return  RouteHolder(LayoutInflater.from(parent.context).inflate(R.layout.route_row, parent, false))
     }
 
     override fun getItemCount() = routeList.size
@@ -26,9 +26,9 @@ class RouteRecyclerAdapter (val activity: NavigationActivity) : RecyclerView.Ada
     }
 
     inner class RouteHolder(routeView: View) : RecyclerView.ViewHolder(routeView) {
-        val tvName = routeView.tv_route_point_name
-        val tvDescription = routeView.tv_route_point_description
-        val tvCityName = routeView.tv_route_point_city_name
+        val tvName = routeView.tv_route_name
+        val tvDescription = routeView.tv_route_description
+        val tvCityName = routeView.tv_route_city_name
 
         var route: Route? = null
 
