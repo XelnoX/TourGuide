@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RouteDetailsFragment"
-    android:paddingVertical="16dp">
+    android:paddingVertical="16dp"
+    tools:context=".RouteDetailsFragment">
 
     <TextView
         android:id="@+id/tv_route_details_name"
@@ -37,9 +37,9 @@
 
     <TextView
         android:id="@+id/tv_route_details_time"
-        android:layout_marginHorizontal="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/time"
         android:textSize="17sp"
@@ -52,9 +52,9 @@
 
     <TextView
         android:id="@+id/tv_route_details_distance"
-        android:layout_marginHorizontal="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/distance"
         android:textSize="17sp"
@@ -81,7 +81,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_route_detail_points"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="270dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_route_details_select"
@@ -94,8 +94,8 @@
     <TextView
         android:id="@+id/tv_route_details_Points"
         android:layout_width="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/points"
         android:textSize="20sp"
@@ -106,14 +106,14 @@
 
     <Button
         android:id="@+id/btn_route_details_select"
-        android:layout_marginHorizontal="16dp"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="70dp"
         android:background="@drawable/ripple"
-        android:textColor="@color/white"
         android:text="@string/select"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

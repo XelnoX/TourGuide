@@ -1,21 +1,14 @@
 package hu.bme.aut.android.tourguide
 
-import android.graphics.drawable.AdaptiveIconDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.*
-import java.util.logging.Filter
 
 class RoutesFragment : Fragment() {
     private val TAG = "RoutesFragment"
@@ -34,7 +27,7 @@ class RoutesFragment : Fragment() {
 
         val user = arguments!!.getSerializable("user") as User
 
-        fab = view.findViewById<FloatingActionButton>(R.id.fab_routes)
+        fab = view.findViewById(R.id.fab_routes)
         fab.setOnClickListener {
             if(isFiltered){
                 val simpleFilter = MyFilter(mutableListOf(), 0.0, 1000.0, 0.0, 300.0)
