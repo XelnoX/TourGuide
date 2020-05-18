@@ -38,7 +38,7 @@ class RouteRecyclerAdapter (val activity: NavigationActivity) : RecyclerView.Ada
                 bundle.putSerializable("route", route)
                 val fragment = RouteDetailsFragment()
                 fragment.arguments = bundle
-                activity.replaceFragment(fragment)
+                activity.addToBackStackAndReplaceFragment(fragment)
 
             }
         }

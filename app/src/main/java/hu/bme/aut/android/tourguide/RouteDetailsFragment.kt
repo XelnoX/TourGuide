@@ -49,9 +49,14 @@ class RouteDetailsFragment : Fragment() {
         btnSelect = view.findViewById(R.id.btn_route_details_select)
         tvCity = view.findViewById(R.id.tv_route_details_city)
 
+        tvName.text = route.name
+        tvDescription.text = route.description
+        tvDistance.text = "Total distance: ${route.distance} km"
+        tvTime.text = "Estimated time: ${route.time} perc"
+        tvCity.text = "The route takes place in the city of ${route.city}"
+
         tvBack.setOnClickListener {
-            val fragment = RoutesFragment()
-            (activity as NavigationActivity).replaceFragmentAndGiveUser(fragment)
+            fragmentManager!!.popBackStack()
         }
 
         btnSelect.setOnClickListener {
@@ -60,12 +65,6 @@ class RouteDetailsFragment : Fragment() {
             fragment.pointList = route.points
             (activity as NavigationActivity).replaceFragment(fragment)
         }
-
-        tvName.text = route.name
-        tvDescription.text = route.description
-        tvDistance.text = "Total distance: ${route.distance} km"
-        tvTime.text = "Estimated time: ${route.time} perc"
-        tvCity.text = "The route takes place in the city of ${route.city}"
 
         return view
     }

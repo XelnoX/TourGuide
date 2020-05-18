@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class RoutesFragment : Fragment() {
+class RoutesFragment: Fragment() {
     private val TAG = "RoutesFragment"
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RouteRecyclerAdapter
-    private lateinit var myFilter: MyFilter
+    lateinit var myFilter: MyFilter
     private var isFiltered = false
     private lateinit var fab: FloatingActionButton
 
@@ -25,12 +25,25 @@ class RoutesFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_routes, container, false)
 
-        val user = arguments!!.getSerializable("user") as User
+        recyclerView = view.findViewById(R.id.rv_routes)
+        adapter = RouteRecyclerAdapter(activity as NavigationActivity)
+
+        adapter.routeList = (activity as NavigationActivity).routeList
+
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = adapter
 
         fab = view.findViewById(R.id.fab_routes)
+
+        val user = arguments!!.getSerializable("user") as User
+
+        if(isFiltered){
+            showRoutes(myFilter)
+            fab.setImageDrawable(resources.getDrawable(R.drawable.ic_clear_purple_24dp))
+        }
         fab.setOnClickListener {
             if(isFiltered){
-                val simpleFilter = MyFilter(mutableListOf(), 0.0, 1000.0, 0.0, 300.0)
+                val simpleFilter = MyFilter()
                 showRoutes(simpleFilter)
                 fab.setImageDrawable(resources.getDrawable(R.drawable.ic_search_purple_24dp))
             }else{
@@ -43,14 +56,6 @@ class RoutesFragment : Fragment() {
             }
             isFiltered = !isFiltered
         }
-
-        recyclerView = view.findViewById(R.id.rv_routes)
-        adapter = RouteRecyclerAdapter(activity as NavigationActivity)
-
-        adapter.routeList = (activity as NavigationActivity).routeList
-
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = adapter
 
         return view
     }

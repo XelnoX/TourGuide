@@ -142,7 +142,7 @@ class NavigationActivity : AppCompatActivity() {
                 }
                 R.id.navigation_tours ->{
                     Log.d(TAG, "RoutesFragment is on the top!")
-                    replaceFragmentAndGiveUser(RoutesFragment())
+                    addToBackStackAndReplaceFragmentAndGiveUser(RoutesFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_map ->{
@@ -152,6 +152,19 @@ class NavigationActivity : AppCompatActivity() {
                 }
             }
         return@OnNavigationItemSelectedListener true
+    }
+
+    fun addToBackStackAndReplaceFragment(fragment: Fragment){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_holder, fragment)
+        fragmentTransaction.addToBackStack("fragment")
+        fragmentTransaction.commit()
+    }
+    fun addToBackStackAndReplaceFragmentAndGiveUser(fragment: Fragment){
+        val bundle = Bundle()
+        bundle.putSerializable("user", user)
+        fragment.arguments = bundle
+        addToBackStackAndReplaceFragment(fragment)
     }
 
     fun replaceFragment(fragment: Fragment){
