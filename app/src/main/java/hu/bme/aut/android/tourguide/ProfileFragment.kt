@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -29,7 +28,6 @@ class ProfileFragment: Fragment() {
     private lateinit var etNewPassword: EditText
     private lateinit var etNewPasswordAgain: EditText
     private lateinit var etOldPassword: EditText
-    private lateinit var tvChange: TextView
     private lateinit var tvCities: TextView
     private var isInEditMode: Boolean = false
 
@@ -60,7 +58,6 @@ class ProfileFragment: Fragment() {
         etNewPassword = view.findViewById(R.id.et_profile_new_password)
         etNewPasswordAgain = view.findViewById(R.id.et_profile_new_password_again)
         etOldPassword = view.findViewById(R.id.et_profile_old_password)
-        tvChange = view.findViewById(R.id.tv_profile_change)
         tvCities = view.findViewById(R.id.tv_profile_cities)
 
         prefs = this.activity!!.getSharedPreferences(PREFS_FILENAME, 0)
@@ -158,7 +155,7 @@ class ProfileFragment: Fragment() {
                 etNewPasswordAgain.isVisible = isChecked
         }
 
-        tvChange.setOnClickListener {
+        tvCities.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("from", "ProfF")
             val fragmentDial = CitiesDialogFragment()
@@ -301,10 +298,10 @@ class ProfileFragment: Fragment() {
         }
         if(temp != ""){
             temp.removePrefix("")
-            tvCities.text = temp
         }else{
-            tvCities.text = "You haven\'t chosen any city yet"
+            temp = "You haven\'t chosen any city yet"
         }
+        tvCities.text = temp
         database.child("users").child(user.uid).child("cities").setValue(user.cities)
     }
 }

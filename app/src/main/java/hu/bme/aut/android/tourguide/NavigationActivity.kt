@@ -3,6 +3,7 @@ package hu.bme.aut.android.tourguide
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -32,6 +33,7 @@ class NavigationActivity : AppCompatActivity() {
     private val user = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Toast.makeText(applicationContext, "Welcome!", Toast.LENGTH_SHORT).show()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
 
@@ -71,13 +73,7 @@ class NavigationActivity : AppCompatActivity() {
                     }
                 }
                 if(user.cities.isNotEmpty()){
-                    for(UserCity in user.cities){
-                        for (NavCity in cityList){
-                            if(UserCity.name == NavCity.name){
-                                NavCity.isSelected = true;
-                            }
-                        }
-                    }
+                    resetCityList()
                 }
             }
 
@@ -97,19 +93,8 @@ class NavigationActivity : AppCompatActivity() {
                     }
                 }
                 if(user.cities.isNotEmpty()){
-                    for(UserCity in user.cities){
-                        for (NavCity in cityList){
-                            if(UserCity.name == NavCity.name){
-                                NavCity.isSelected = true;
-                            }
-                        }
-                    }
+                    resetCityList()
                 }
-                val bundle = Bundle()
-                bundle.putSerializable("user", user)
-                val fragment = ProfileFragment()
-                fragment.arguments = bundle
-                replaceFragment(fragment)
             }
         })
 
@@ -126,6 +111,7 @@ class NavigationActivity : AppCompatActivity() {
                         routeList.add(route)
                     }
                 }
+                addToBackStackAndReplaceFragmentAndGiveUser(RoutesFragment())
             }
         })
 
@@ -172,11 +158,28 @@ class NavigationActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.fragment_holder, fragment)
         fragmentTransaction.commit()
     }
-    fun replaceFragmentAndGiveUser(fragment: Fragment){
+    private fun replaceFragmentAndGiveUser(fragment: Fragment){
         val bundle = Bundle()
         bundle.putSerializable("user", user)
         fragment.arguments = bundle
         replaceFragment(fragment)
+    }
+
+    fun resetCityList(){
+        for(city in cityList){
+            city.isSelected = false
+        }
+        for(UserCity in user.cities){
+            for (NavCity in cityList){
+                if(UserCity.name == NavCity.name){
+                    NavCity.isSelected = true
+                }
+            }
+        }
+    }
+
+    fun getList() : MutableList<City>{
+        return mutableListOf<City>().apply { addAll(cityList) }
     }
 
     private fun isPasswordStrong(): Boolean{

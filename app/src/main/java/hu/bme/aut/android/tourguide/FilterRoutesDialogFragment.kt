@@ -70,6 +70,7 @@ class FilterRoutesDialogFragment : DialogFragment() {
             }
             val filter = MyFilter(cityNameList, minDist.toDouble(), maxDist.toDouble(), minTime.toDouble(), maxTime.toDouble())
             routesFrag.showRoutes(filter)
+            (activity as NavigationActivity).resetCityList()
             dismiss()
         }
         return  view
@@ -77,5 +78,6 @@ class FilterRoutesDialogFragment : DialogFragment() {
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         (fragmentManager!!.findFragmentById(R.id.fragment_holder) as RoutesFragment).resetFabBackground()
+        (activity as NavigationActivity).resetCityList()
     }
 }
