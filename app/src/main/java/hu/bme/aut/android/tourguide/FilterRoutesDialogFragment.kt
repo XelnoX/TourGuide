@@ -69,7 +69,7 @@ class FilterRoutesDialogFragment : DialogFragment() {
                 maxTime = 300.0.toString()
             }
             val filter = MyFilter(cityNameList, minDist.toDouble(), maxDist.toDouble(), minTime.toDouble(), maxTime.toDouble())
-            routesFrag.showRoutes(filter)
+            routesFrag.filterRoutes(filter)
             (activity as NavigationActivity).resetCityList()
             dismiss()
         }
@@ -77,7 +77,7 @@ class FilterRoutesDialogFragment : DialogFragment() {
     }
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        (fragmentManager!!.findFragmentById(R.id.fragment_holder) as RoutesFragment).resetFabBackground()
+        (fragmentManager!!.findFragmentById(R.id.fragment_holder) as RoutesFragment).resetFilterFabBackground()
         (activity as NavigationActivity).resetCityList()
     }
 }

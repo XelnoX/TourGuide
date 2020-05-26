@@ -16,7 +16,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.util.regex.Pattern
 
-
 class ProfileFragment: Fragment() {
     private val TAG = "ProfileFragment"
 
@@ -34,12 +33,12 @@ class ProfileFragment: Fragment() {
     private var auth = FirebaseAuth.getInstance()
     private val database = Firebase.database.reference
 
-    var user = User()
-    lateinit var newPassAgain: String
+    private var user = User()
+    private lateinit var newPassAgain: String
 
-    val PREFS_FILENAME = "hu.bme.aut.android.tourguide.mypreference"
-    val PASSWORD = "userPassword"
-    val EMAIL= "userEmail"
+    private val PREFS_FILENAME = "hu.bme.aut.android.tourguide.mypreference"
+    private val PASSWORD = "userPassword"
+    private val EMAIL= "userEmail"
     private lateinit var prefs: SharedPreferences
 
     override fun onCreateView(

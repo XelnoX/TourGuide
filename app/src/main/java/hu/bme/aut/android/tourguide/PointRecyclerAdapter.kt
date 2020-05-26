@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.point_row.view.*
-import kotlinx.android.synthetic.main.route_row.view.*
 
 class PointRecyclerAdapter constructor(val context: Context): RecyclerView.Adapter<PointRecyclerAdapter.PointHolder>() {
 
@@ -28,8 +28,8 @@ class PointRecyclerAdapter constructor(val context: Context): RecyclerView.Adapt
     }
 
     inner class PointHolder (pointView: View): RecyclerView.ViewHolder(pointView){
-        val tvName = pointView.tv_point_name
-        val tvDescription = pointView.tv_point_description
+        val tvName: TextView = pointView.tv_point_name
+        val tvDescription: TextView = pointView.tv_point_description
 
         var point : Point? = null
 

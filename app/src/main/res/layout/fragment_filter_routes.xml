@@ -54,7 +54,9 @@
         android:ems="10"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/rv_filter_routes"
-        app:layout_constraintTop_toBottomOf="@+id/tv_routes_filter_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_routes_filter_title"
+        android:hint="@string/min"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/et_filter_max_dist"
@@ -64,23 +66,28 @@
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
+        android:importantForAutofill="no"
+        android:hint="@string/max"
         app:layout_constraintTop_toBottomOf="@+id/tv_routes_filter_title" />
 
     <EditText
         android:id="@+id/et_filter_min_time"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:importantForAutofill="no"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/rv_filter_routes"
+        android:hint="@string/min"
         app:layout_constraintTop_toBottomOf="@+id/et_filter_min_dist" />
 
     <EditText
         android:id="@+id/et_filter_max_time"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:importantForAutofill="no"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="number"

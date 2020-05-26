@@ -6,7 +6,6 @@
     tools:context="hu.bme.aut.android.tourguide.LoadingFragment">
 
     <com.pnikosis.materialishprogress.ProgressWheel
-        android:id="@+id/progress_wheel"
         android:layout_width="80dp"
         android:layout_height="80dp"
         wheel:layout_constraintBottom_toBottomOf="parent"

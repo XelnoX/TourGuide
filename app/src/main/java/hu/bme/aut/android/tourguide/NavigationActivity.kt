@@ -1,11 +1,10 @@
 package hu.bme.aut.android.tourguide
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -17,10 +16,11 @@ import java.util.regex.Pattern
 class NavigationActivity : AppCompatActivity() {
     private val TAG = "NavigationActivity"
 
-    lateinit var password: String
-    val PREFS_FILENAME = "hu.bme.aut.android.tourguide.mypreference"
-    val PASSWORD = "userPassword"
+    private lateinit var password: String
+    private val PREFS_FILENAME = "hu.bme.aut.android.tourguide.mypreference"
+    private val PASSWORD = "userPassword"
     private lateinit var navView: BottomNavigationView
+    private lateinit var currentFragment: Fragment
     var cityList = mutableListOf<City>()
     var routeList = mutableListOf<Route>()
     private val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -111,7 +111,12 @@ class NavigationActivity : AppCompatActivity() {
                         routeList.add(route)
                     }
                 }
-                addToBackStackAndReplaceFragmentAndGiveUser(RoutesFragment())
+                if(isPasswordStrong()){
+                    addToBackStackAndReplaceFragmentAndGiveUser(RoutesFragment())
+                }else{
+                    Toast.makeText(applicationContext, "Your password is weak, please change it!", Toast.LENGTH_SHORT).show()
+                    replaceFragmentAndGiveUser(ProfileFragment())
+                }
             }
         })
 
@@ -141,6 +146,7 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     fun addToBackStackAndReplaceFragment(fragment: Fragment){
+        currentFragment = fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_holder, fragment)
         fragmentTransaction.addToBackStack("fragment")
@@ -154,6 +160,7 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     fun replaceFragment(fragment: Fragment){
+        currentFragment = fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_holder, fragment)
         fragmentTransaction.commit()

@@ -3,6 +3,8 @@ package hu.bme.aut.android.tourguide
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.city_row.view.*
 
@@ -11,8 +13,8 @@ class CityRecyclerAdapter: RecyclerView.Adapter<CityRecyclerAdapter.CityHolder>(
     var cityList = mutableListOf<City>()
 
     inner class CityHolder (cityView : View): RecyclerView.ViewHolder(cityView){
-        val tvName = cityView.tv_city_row
-        val cbSelected = cityView.cb_city_row
+        val tvName: TextView = cityView.tv_city_row
+        val cbSelected: CheckBox = cityView.cb_city_row
 
         var city : City? = null
 

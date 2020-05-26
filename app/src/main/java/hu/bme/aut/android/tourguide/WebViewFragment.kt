@@ -23,8 +23,8 @@ class WebViewFragment : Fragment() {
         webView = view.findViewById(R.id.web_view)
         webView.loadUrl(url)
 
-        val webSettings = webView.settings
-        webSettings.javaScriptEnabled = true
+        //val webSettings = webView.settings
+        //webSettings.javaScriptEnabled = true
 
         webView.webViewClient = WebViewClient()
 

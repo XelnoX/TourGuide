@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RouteDetailsFragment : Fragment() {
 
@@ -51,9 +50,12 @@ class RouteDetailsFragment : Fragment() {
 
         tvName.text = route.name
         tvDescription.text = route.description
-        tvDistance.text = "Total distance: ${route.distance} km"
-        tvTime.text = "Estimated time: ${route.time} perc"
-        tvCity.text = "The route takes place in the city of ${route.city}"
+        val distTemp = "Total distance: ${route.distance} km"
+        tvDistance.text = distTemp
+        val timeTemp = "Estimated time: ${route.time} perc"
+        tvTime.text =  timeTemp
+        val cityTemp = "The route takes place in the city of ${route.city}"
+        tvCity.text = cityTemp
 
         tvBack.setOnClickListener {
             fragmentManager!!.popBackStack()

@@ -2,7 +2,6 @@ package hu.bme.aut.android.tourguide
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,7 @@ class ChooseFilterDialogFragment : DialogFragment() {
                 cityStringList.add(city.name)
             }
             val filter = MyFilter(cityStringList,0.0, 1000.0, 0.0, 300.0)
-            (fragmentManager!!.findFragmentById(R.id.fragment_holder) as RoutesFragment).showRoutes(filter)
+            (fragmentManager!!.findFragmentById(R.id.fragment_holder) as RoutesFragment).filterRoutes(filter)
             Toast.makeText(context, "These routes fitting for you:", Toast.LENGTH_LONG).show()
             dismiss()
         }
@@ -48,6 +47,6 @@ class ChooseFilterDialogFragment : DialogFragment() {
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        (fragmentManager!!.findFragmentById(R.id.fragment_holder) as RoutesFragment).resetFabBackground()
+        (fragmentManager!!.findFragmentById(R.id.fragment_holder) as RoutesFragment).resetFilterFabBackground()
     }
 }

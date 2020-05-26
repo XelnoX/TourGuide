@@ -38,22 +38,22 @@
         app:layout_constraintVertical_bias="0.0">
 
         <Button
-            android:id="@+id/btn_cities_ok"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="@string/ok"
-            android:textColor="@color/white"
-            app:borderWidth="0dp" />
-
-        <Button
             android:id="@+id/btn_cities_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimary"
             android:text="@string/cancel"
+            android:textColor="@color/white"
+            app:borderWidth="0dp" />
+
+        <Button
+            android:id="@+id/btn_cities_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/ok"
             android:textColor="@color/white"
             app:borderWidth="0dp" />
     </LinearLayout>

@@ -138,10 +138,10 @@ class RegistrationActivity : AppCompatActivity() {
         }
         if(temp != ""){
             temp.removePrefix("")
-            tv_reg_cities.text = temp
         }else{
-            tv_reg_cities.text = "Chose some cities (optional)"
+            temp = "Chose some cities (optional)"
         }
+        tv_reg_cities.text = temp
     }
 
     private fun listSelectedCities(cityList: MutableList<City>): MutableList<City>{
